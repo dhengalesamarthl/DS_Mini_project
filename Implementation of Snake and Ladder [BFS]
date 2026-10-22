@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int minDiceThrows(vector<int>& board, int N) {
+    vector<bool> visited(N + 1, false);
+    queue<pair<int, int>> q; // {cell, dice throws}
+
+    q.push({1, 0});
+    visited[1] = true;
+
+    while (!q.empty()) {
+        auto [cell, throws] = q.front();
+        q.pop();
+
+        if (cell == N)
+            return throws;
+
+        // Try all possible dice outcomes (1 to 6)
+        for (int dice = 1; dice <= 6 && cell + dice <= N; dice++) {
+            int next = cell + dice;
+
+            // Apply snake or ladder
+            if (board[next] != -1)
+                next = board[next];
+
+            if (!visited[next]) {
+                visited[next] = true;
+                q.push({next, throws + 1});
+            }
+        }
+    }
+
+    return -1; // Destination unreachable
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    // board[i] = -1 means no snake or ladder
+    // Otherwise, board[i] is the destination
+    vector<int> board(N + 1, -1);
+
+    int S;
+    cin >> S;
+
+    // Input snakes: start and end
+    for (int i = 0; i < S; i++) {
+        int start, end;
+        cin >> start >> end;
+        board[start] = end;
+    }
+
+    int L;
+    cin >> L;
+
+    // Input ladders: start and end
+    for (int i = 0; i < L; i++) {
+        int start, end;
+        cin >> start >> end;
+        board[start] = end;
+    }
+
+    cout << minDiceThrows(board, N) << '\n';
+
+    return 0;
+}

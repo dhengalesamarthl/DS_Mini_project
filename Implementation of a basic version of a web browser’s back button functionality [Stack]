@@ -1,0 +1,73 @@
+class Browser:
+    def __init__(self):
+        self.history = []
+        self.current_page = None
+
+    # Visit a new web page
+    def visit_page(self, url):
+        if self.current_page is not None:
+            self.history.append(self.current_page)
+
+        self.current_page = url
+        print("Opened page:", self.current_page)
+
+    # Go back to the previous page
+    def back(self):
+        if len(self.history) > 0:
+            self.current_page = self.history.pop()
+            print("Returned to:", self.current_page)
+        else:
+            print("No previous page available.")
+
+    # Display the current page
+    def show_current_page(self):
+        if self.current_page is not None:
+            print("Current page:", self.current_page)
+        else:
+            print("No page is currently open.")
+
+    # Display browsing history
+    def show_history(self):
+        if len(self.history) == 0:
+            print("Browsing history is empty.")
+        else:
+            print("Previous pages (oldest to newest):")
+            for page in self.history:
+                print(page)
+
+
+# Main program
+browser = Browser()
+
+while True:
+    print("\n--- Browser Back Button ---")
+    print("1. Visit a new page")
+    print("2. Back")
+    print("3. Show current page")
+    print("4. Show browsing history")
+    print("5. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        url = input("Enter website name or URL: ")
+        browser.visit_page(url)
+
+    elif choice == "2":
+        browser.back()
+
+    elif choice == "3":
+        browser.show_current_page()
+
+    elif choice == "4":
+        browser.show_history()
+
+    elif choice == "5":
+        print("Browser simulation closed.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
+
+
+mini one code
